@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string></string>
+	<key>style</key>
+	<string>UIVisualEffectView</string>
+	<key>tabBarItems</key>
+	<array>
+		<dict>
+			<key>uiviewControllName</key>
+			<string>ComeViewController</string>
+			<key>unselectedIconName</key>
+			<string>ChrisCome</string>
+			<key>selectedIconName</key>
+			<string>ChrisComeSelected</string>
+		</dict>
+		<dict>
+			<key>uiviewControllName</key>
+			<string>FoodsViewController</string>
+			<key>unselectedIconName</key>
+			<string>ChrisFoods</string>
+			<key>selectedIconName</key>
+			<string>ChrisFoodsSelected</string>
+		</dict>
+		<dict>
+			<key>uiviewControllName</key>
+			<string>GoodsViewController</string>
+			<key>unselectedIconName</key>
+			<string>ChrisGoods</string>
+			<key>selectedIconName</key>
+			<string>ChrisGoodsSelected</string>
+		</dict>
+		<dict>
+			<key>uiviewControllName</key>
+			<string>MonkeyViewController</string>
+			<key>unselectedIconName</key>
+			<string>ChrisMonkey</string>
+			<key>selectedIconName</key>
+			<string>ChrisMonkeySelected</string>
+		</dict>
+	</array>
+	<key>selectIndex</key>
+	<integer>0</integer>
+	<key>height</key>
+	<integer>49</integer>
+	<key>color</key>
+	<string>0X555555</string>
+</dict>
+</plist>

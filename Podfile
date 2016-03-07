@@ -1,0 +1,12 @@
+platform :ios, '7.0'
+
+pod 'ReactiveCocoa'
+pod 'MMDrawerController', '~> 0.5.7'
+pod 'Masonry'
+pod 'AFNetworking'
+pod 'MJRefresh'
+pod 'JSONModel'
+pod 'SDWebImage'
+pod 'SVProgressHUD'
+pod 'WebViewJavascriptBridge'
+pod 'SDAutoLayout', '~> 1.31'

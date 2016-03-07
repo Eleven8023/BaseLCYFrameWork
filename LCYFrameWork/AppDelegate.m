@@ -7,9 +7,15 @@
 //
 
 #import "AppDelegate.h"
-
+#import "MMDrawerController.h"
+#import "MainTabBarViewController.h"
+#import "LeftSideDrawerViewController.h"
+#import "MMNavigationController.h"
+#import "MMDrawerVisualState.h"
+#import "MMExampleDrawerVisualStateManager.h"
+#import <QuartzCore/QuartzCore.h>
 @interface AppDelegate ()
-
+@property (nonatomic, strong) MMDrawerController *drwawerController;
 @end
 
 @implementation AppDelegate
@@ -17,8 +23,60 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    MainTabBarViewController *mainTabVC = [[MainTabBarViewController alloc] init];
+    LeftSideDrawerViewController *leftVC = [[LeftSideDrawerViewController alloc] init];
+    UINavigationController *navigationController = [[MMNavigationController alloc] initWithRootViewController:mainTabVC];
+    [navigationController setRestorationIdentifier:@"MMExampleCenterNavigationController"];
+    UINavigationController *leftNavigationController = [[MMNavigationController alloc] initWithRootViewController:leftVC];
+    [leftNavigationController setRestorationIdentifier:@"MMExampleLeftNavigationController"];
+    self.drwawerController = [[MMDrawerController alloc] initWithCenterViewController:navigationController leftDrawerViewController:leftNavigationController];
+    [self.drwawerController setShowsShadow:NO];
+    [self.drwawerController setRestorationIdentifier:@"MMDrawer"];
+    [self.drwawerController setMaximumRightDrawerWidth:200.0];
+    [self.drwawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+    [self.drwawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    [self.drwawerController setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
+        MMDrawerControllerDrawerVisualStateBlock block;
+        block = [[MMExampleDrawerVisualStateManager sharedManager] drawerVisualStateBlockForDrawerSide:drawerSide];
+        if (block) {
+            block(drawerController, drawerSide, percentVisible);
+        }
+        
+    }];
+    self.window.rootViewController = self.drwawerController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
+
+- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder{
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder{
+    return YES;
+}
+
+- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    NSString *key = [identifierComponents lastObject];
+    if ([key isEqualToString:@"MMDrawer"]) {
+        return self.window.rootViewController;
+    }else if ([key isEqualToString:@"MMExampleCenterNavigationController"]){
+        return ((MMDrawerController *)self.window.rootViewController).centerViewController;
+    }else if ([key isEqualToString:@"MMExampleLeftNavigationController"]){
+        return ((MMDrawerController *)self.window.rootViewController).leftDrawerViewController;
+    }else if ([key isEqualToString:@"MMExampleLeftSideDrawerController"]){
+        UIViewController *leftVC = ((MMDrawerController *)self.window.rootViewController).leftDrawerViewController;
+        if ([leftVC isKindOfClass:[UINavigationController class]]) {
+            return [(UINavigationController *)leftVC topViewController];
+        }else{
+            return leftVC;
+        }
+    }
+    return nil;
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
